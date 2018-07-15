@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="2.0.3" />
+    <PackageReference Include="SignalR.Orleans" Version="1.0.3" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="System.Reactive.Interfaces" Version="4.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NanoFabric.Docimax.Grains.Contracts.Heroes\NanoFabric.Docimax.Grains.Contracts.Heroes.csproj" />
+    <ProjectReference Include="..\NanoFabric.Docimax.Heroes.Client\NanoFabric.Docimax.Heroes.Client.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,92 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Core", "1.Core", "{47ACC169-1BD0-4D04-B795-18089ACD070E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Core", "src\NanoFabric.Docimax.Core\NanoFabric.Docimax.Core.csproj", "{3AAB33E0-2A4E-4284-8BE3-CEF1B915C415}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.OrleansClient", "src\NanoFabric.Docimax.OrleansClient\NanoFabric.Docimax.OrleansClient.csproj", "{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Business Logic", "3. Business Logic", "{136A4CDF-B7F0-4A89-A07B-46802F4298EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Clients", "2. Clients", "{8A28160C-064D-47F6-8361-D8A5E5446A58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. SiloHost", "4. SiloHost", "{9AF21295-CC86-45B2-9668-3A33C535C21E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Grains.Contracts.Adventure", "src\NanoFabric.Docimax.Grains.Contracts.Adventure\NanoFabric.Docimax.Grains.Contracts.Adventure.csproj", "{87A024E3-E58C-4CFC-9E4D-77512C937B7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Grains.Contracts.Heroes", "src\NanoFabric.Docimax.Grains.Contracts.Heroes\NanoFabric.Docimax.Grains.Contracts.Heroes.csproj", "{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Grains.Heroes", "src\NanoFabric.Docimax.Grains.Heroes\NanoFabric.Docimax.Grains.Heroes.csproj", "{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Heroes.Api", "src\NanoFabric.Docimax.Heroes.Api\NanoFabric.Docimax.Heroes.Api.csproj", "{5E6332DF-DCE5-461B-B91A-4F96E7F3FC5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Heroes.Client", "src\NanoFabric.Docimax.Heroes.Client\NanoFabric.Docimax.Heroes.Client.csproj", "{8C961DE6-8041-4679-8F8D-217FFAC97C28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoFabric.Docimax.HttpGateway", "src\NanoFabric.Docimax.HttpGateway\NanoFabric.Docimax.HttpGateway.csproj", "{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoFabric.Docimax.Heroes.SiloHost", "src\NanoFabric.Docimax.Heroes.SiloHost\NanoFabric.Docimax.Heroes.SiloHost.csproj", "{D2FD2789-4601-4924-8754-83AB390F3450}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AAB33E0-2A4E-4284-8BE3-CEF1B915C415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AAB33E0-2A4E-4284-8BE3-CEF1B915C415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AAB33E0-2A4E-4284-8BE3-CEF1B915C415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AAB33E0-2A4E-4284-8BE3-CEF1B915C415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6332DF-DCE5-461B-B91A-4F96E7F3FC5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6332DF-DCE5-461B-B91A-4F96E7F3FC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6332DF-DCE5-461B-B91A-4F96E7F3FC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6332DF-DCE5-461B-B91A-4F96E7F3FC5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C961DE6-8041-4679-8F8D-217FFAC97C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C961DE6-8041-4679-8F8D-217FFAC97C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C961DE6-8041-4679-8F8D-217FFAC97C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C961DE6-8041-4679-8F8D-217FFAC97C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2FD2789-4601-4924-8754-83AB390F3450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2FD2789-4601-4924-8754-83AB390F3450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2FD2789-4601-4924-8754-83AB390F3450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2FD2789-4601-4924-8754-83AB390F3450}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3AAB33E0-2A4E-4284-8BE3-CEF1B915C415} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
+		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
+		{87A024E3-E58C-4CFC-9E4D-77512C937B7B} = {136A4CDF-B7F0-4A89-A07B-46802F4298EB}
+		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7} = {136A4CDF-B7F0-4A89-A07B-46802F4298EB}
+		{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF} = {136A4CDF-B7F0-4A89-A07B-46802F4298EB}
+		{5E6332DF-DCE5-461B-B91A-4F96E7F3FC5E} = {8A28160C-064D-47F6-8361-D8A5E5446A58}
+		{8C961DE6-8041-4679-8F8D-217FFAC97C28} = {8A28160C-064D-47F6-8361-D8A5E5446A58}
+		{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7} = {8A28160C-064D-47F6-8361-D8A5E5446A58}
+		{D2FD2789-4601-4924-8754-83AB390F3450} = {9AF21295-CC86-45B2-9668-3A33C535C21E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A2D16C0-C8FD-4A28-BA89-55EC47253D26}
+	EndGlobalSection
+EndGlobal
