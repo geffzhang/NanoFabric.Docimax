@@ -5,19 +5,23 @@ using NanoFabric.Docimax.Grains.Heroes;
 using NanoFabric.Docimax.Heroes.SiloHost.Infrastructure;
 using Orleans;
 using Orleans.Hosting;
-using Serilog;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
+using NLog.Extensions.Logging;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Orleans.Configuration;
+using System.Net;
 
 namespace NanoFabric.Docimax.Heroes.SiloHost
 {
     class Program
     {
-        private static ILogger _log;
+        private static NLog.Logger _log;
         private static ISiloHost _siloHost;
         private static HostingEnvironment _hostingEnv;
         private static Stopwatch _startupStopwatch;
@@ -25,9 +29,7 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
 
         public static void Main(string[] args)
         {
-            _log = LoggingConfig.ConfigureSimple()
-                .CreateLogger()
-                .ForContext<Program>();
+            _log = NLog.LogManager.LoadConfiguration("nlog.config").GetCurrentClassLogger();
             RunMainAsync(args).Ignore();
             SiloStopped.WaitOne();
         }
@@ -42,9 +44,8 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
                 var configBuilder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddCommandLine(args)
+                    .AddJsonFile("appsettings.json")
                     .AddJsonFile("config.json")
-                    //.AddJsonFile($"config.{shortEnvName}.json")
-                    .AddJsonFile("app-info.json")
                     .AddEnvironmentVariables();
 
                 if (_hostingEnv.IsDockerDev)
@@ -55,23 +56,20 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
                 var appInfo = new AppInfo(config);
                 Console.Title = $"Silo - {appInfo.Name}";
 
-                var logger = LoggingConfig.Configure(config, appInfo)
-                    .CreateLogger();
+                _siloHost = BuildSilo(appInfo,config);
+                _log.Info($"Initializing Silo { appInfo.Name} ({appInfo.Version}) [{ _hostingEnv.Environment}]...");
 
-                Log.Logger = logger;
-                _log = logger.ForContext<Program>();
-                _log.Information("Initializing Silo {appName} ({version}) [{env}]...", appInfo.Name, appInfo.Version, _hostingEnv.Environment);
-
-                _siloHost = BuildSilo(appInfo, logger);
+               
                 AssemblyLoadContext.Default.Unloading += context =>
                 {
-                    _log.Information("Assembly unloading...");
+                    _log.Info("Assembly unloading...");
 
                     Task.Run(StopSilo);
                     SiloStopped.WaitOne();
 
-                    _log.Information("Assembly unloaded complete.");
-                    Log.CloseAndFlush();
+                    _log.Info("Assembly unloaded complete.");
+                    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                    NLog.LogManager.Shutdown();
                 };
 
                 await StartSilo();
@@ -79,20 +77,24 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
             catch (Exception ex)
             {
                 _log.Error(ex, "An error has occurred while initializing or starting silo.");
-                Log.CloseAndFlush();
+                NLog.LogManager.Shutdown();
             }
         }
 
-        private static ISiloHost BuildSilo(IAppInfo appInfo, ILogger logger)
+        private static ISiloHost BuildSilo(IAppInfo appInfo,IConfiguration config)
         {
             var builder = new SiloHostBuilder()
                 .UseHeroConfiguration(appInfo, _hostingEnv)
-                .ConfigureLogging(logging => logging.AddSerilog(logger, dispose: true))
+                .ConfigureLogging(logging => logging.AddNLog())
                 .ConfigureApplicationParts(parts => parts
                     .AddApplicationPart(typeof(HeroGrain).Assembly).WithReferences()
                 )
                 .AddStartupTask<WarmupStartupTask>()
                 .UseServiceProviderFactory(ConfigureServices)
+                .UseDashboard(opt =>
+                 {
+                     opt.Port = 1010;
+                 })              
                 .UseSignalR();
 
             return builder.Build();
@@ -100,17 +102,16 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
 
         private static async Task StartSilo()
         {
-            _log.Information("Silo initialized in {timeTaken:#.##}s. Starting...", _startupStopwatch.Elapsed.TotalSeconds);
-
+            _log.Info("Silo initialized in {timeTaken:#.##}s. Starting...", _startupStopwatch.Elapsed.TotalSeconds);
             await _siloHost.StartAsync();
             _startupStopwatch.Stop();
 
-            _log.Information("Successfully started Silo in {timeTaken:#.##}s (total).", _startupStopwatch.Elapsed.TotalSeconds);
+            _log.Info("Successfully started Silo in {timeTaken:#.##}s (total).", _startupStopwatch.Elapsed.TotalSeconds);
         }
 
         private static async Task StopSilo()
         {
-            _log.Information("Stopping Silo...");
+            _log.Info("Stopping Silo...");
 
             try
             {
@@ -121,7 +122,7 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
                 _log.Error(ex, "Stopping Silo failed...");
             }
 
-            _log.Information("Silo shutdown.");
+            _log.Info("Silo shutdown.");
 
             SiloStopped.Set();
         }
@@ -129,8 +130,18 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
         private static IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddHeroesGrains();
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddLogging((builder) => builder.SetMinimumLevel(LogLevel.Trace));
 
-            return services.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
+
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+
+            //configure NLog
+            loggerFactory.AddNLog(new NLogProviderOptions { CaptureMessageTemplates = true, CaptureMessageProperties = true });
+            NLog.LogManager.LoadConfiguration("nlog.config");
+            return serviceProvider;
         }
     }
 }

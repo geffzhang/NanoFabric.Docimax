@@ -2,11 +2,10 @@
 using NanoFabric.Docimax.Core.Utils;
 using Orleans;
 using Orleans.Configuration;
+using Orleans.Hosting;
+using SignalR.Orleans;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace NanoFabric.Docimax.Heroes.Api.Infrastructure
@@ -16,6 +15,7 @@ namespace NanoFabric.Docimax.Heroes.Api.Infrastructure
     {
         public static IServiceCollection UseOrleansClient(this IServiceCollection services, ClientBuilderContext context)
         {
+              
             if (context == null)
                 throw new ArgumentNullException($"{nameof(context)}");
             if (context.AppInfo == null)
@@ -27,6 +27,7 @@ namespace NanoFabric.Docimax.Heroes.Api.Infrastructure
 
                 var client = InitializeWithRetries(context).Result;
                 services.AddSingleton(client);
+                services.AddSignalR().AddOrleans(new SignalRClusterClientProvider(client));
             }
             catch (Exception ex)
             {
@@ -79,17 +80,33 @@ namespace NanoFabric.Docimax.Heroes.Api.Infrastructure
         {
             if (!context.AppInfo.IsDockerized)
             {
-                var siloAddress = IPAddress.Loopback;
-                const int gatewayPort = 30000; // 10400
-                clientBuilder.UseStaticClustering(new IPEndPoint(siloAddress, gatewayPort));
+                //var siloAddress = IPAddress.Loopback;
+                //const int gatewayPort = 30000; // 10400
+                clientBuilder.UseConsulClustering(options => {
+                    options.Address = new Uri(context.ConsulEndPoint);
+                });
             }
 
             return clientBuilder.Configure<ClusterOptions>(config =>
             {
-                config.ClusterId = context.ClusterId;
-                config.ServiceId = context.ServiceId;
+                //config.ClusterId = context.ClusterId;
+                //config.ServiceId = context.ServiceId;
+                config.ClusterId = "dev";
+                config.ServiceId = "Heroes";
             });
         }
 
+    }
+
+    public class SignalRClusterClientProvider : IClusterClientProvider
+    {
+        private IClusterClient _clusterClient;
+
+        public SignalRClusterClientProvider(IClusterClient clusterClient)
+        {
+            this._clusterClient = clusterClient;
+        }
+
+        public IClusterClient GetClient() => this._clusterClient;
     }
 }

@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/tools/IdentityBase-1.2.26.zip
+/src/IdentityBase-1.2.26

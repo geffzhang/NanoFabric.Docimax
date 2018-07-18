@@ -8,7 +8,20 @@
         "Microsoft": "Warning",
         "Orleans": "Warning",
         "NanoFabric": "Information"
-      }
+      },
+      "WriteTo": [
+        { "Name": "Console" },
+        {
+          "Name": "RollingFile",
+          "Args": {
+            "formatter": "Serilog.Formatting.Json.JsonFormatter, Serilog",
+            "pathFormat": "./logs/heroes.json",
+            "fileSizeLimitBytes": 1234567,
+            "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext:l}] {Message:lj}{NewLine}{Exception}"
+          }
+        }
+      ],
+      "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId", "RemoteIpAddress" ]
     }
   }
 }

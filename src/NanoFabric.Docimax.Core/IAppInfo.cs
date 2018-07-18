@@ -42,5 +42,10 @@ namespace NanoFabric.Docimax.Core
         /// Gets which service type is this app responsible of e.g. web, silo, etc...
         /// </summary>
         string ServiceType { get; set; }
+
+        /// <summary>
+        /// Get consul endpoint
+        /// </summary>
+        string ConsulEndPoint { get; set; }
     }
 }

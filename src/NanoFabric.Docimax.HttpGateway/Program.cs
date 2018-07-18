@@ -1,24 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
+using Rafty.Infrastructure;
+using System.IO;
 
 namespace NanoFabric.Docimax.HttpGateway
 {
     public class Program
     {
+        private const string defaultAddress = "http://localhost:8000";
+        private const string addressKey = "serveraddress";
+
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+            var configurationBuilder = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+           .AddJsonFile("ocelot.json", true, false)
+           .AddEnvironmentVariables()
+           .AddCommandLine(args);
+           
+            if (args != null)
+            {
+                configurationBuilder.AddCommandLine(args);
+            }
+            var hostingconfig = configurationBuilder.Build();
+            var url = hostingconfig[addressKey] ?? defaultAddress;
+          
+            IWebHostBuilder builder = new WebHostBuilder();
+            builder.ConfigureServices(s =>
+            {
+                s.AddSingleton(builder);
+                s.AddSingleton(new NodeId(url));
+            });
+            builder.UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseConfiguration(hostingconfig)
+                //.ConfigureAppConfiguration((hostingContext, config) =>
+                //{
+                //    config.SetBasePath(hostingContext.HostingEnvironment.ContentRootPath);
+                //    var env = hostingContext.HostingEnvironment;
+                //    //config.AddOcelot();
+                //    config.AddEnvironmentVariables();
+                //})                
+                .ConfigureLogging((hostingContext, logging) =>
+                 {
+                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                     logging.AddConsole();
+                     logging.AddDebug();
+                 })
+                .UseIISIntegration()
+                .UseMetricsWebTracking()
+                .UseMetricsEndpoints()
+                .UseNLog()
+                .UseUrls(url)
                 .UseStartup<Startup>();
+            var host = builder.Build();
+            host.Run();
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace NanoFabric.Docimax.Core
         public string Version { get; set; }
         public bool IsDockerized { get; set; }
         public string ServiceType { get; set; }
+        public string ConsulEndPoint { get; set; }
 
         private static readonly Dictionary<string, string> EnvironmentMapping = new Dictionary<string, string>
         {
@@ -48,6 +49,8 @@ namespace NanoFabric.Docimax.Core
             ClusterId = $"{Name}-{Version}";
 
             Environment = MapEnvironmentName(Environment);
+
+            ConsulEndPoint = config.GetValue("consulEndPoint", "http://127.0.0.1:8500");
         }
 
         public static string MapEnvironmentName(string environment)

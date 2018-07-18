@@ -25,9 +25,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Heroes.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Heroes.Client", "src\NanoFabric.Docimax.Heroes.Client\NanoFabric.Docimax.Heroes.Client.csproj", "{8C961DE6-8041-4679-8F8D-217FFAC97C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoFabric.Docimax.HttpGateway", "src\NanoFabric.Docimax.HttpGateway\NanoFabric.Docimax.HttpGateway.csproj", "{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.HttpGateway", "src\NanoFabric.Docimax.HttpGateway\NanoFabric.Docimax.HttpGateway.csproj", "{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoFabric.Docimax.Heroes.SiloHost", "src\NanoFabric.Docimax.Heroes.SiloHost\NanoFabric.Docimax.Heroes.SiloHost.csproj", "{D2FD2789-4601-4924-8754-83AB390F3450}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Heroes.SiloHost", "src\NanoFabric.Docimax.Heroes.SiloHost\NanoFabric.Docimax.Heroes.SiloHost.csproj", "{D2FD2789-4601-4924-8754-83AB390F3450}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Core", "src\NanoFabric.Core\NanoFabric.Core.csproj", "{1717E0C1-F26D-4586-9163-CD25CD2ED4F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.AspNetCore", "src\NanoFabric.AspNetCore\NanoFabric.AspNetCore.csproj", "{3E53CFA9-DA45-4C7B-842E-21C528EC0F6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.RegistryHost.ConsulRegistry", "src\NanoFabric.RegistryHost.ConsulRegistry\NanoFabric.RegistryHost.ConsulRegistry.csproj", "{030420F6-E04B-417D-9072-1657A9F88C0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +77,18 @@ Global
 		{D2FD2789-4601-4924-8754-83AB390F3450}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2FD2789-4601-4924-8754-83AB390F3450}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2FD2789-4601-4924-8754-83AB390F3450}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1717E0C1-F26D-4586-9163-CD25CD2ED4F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1717E0C1-F26D-4586-9163-CD25CD2ED4F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1717E0C1-F26D-4586-9163-CD25CD2ED4F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1717E0C1-F26D-4586-9163-CD25CD2ED4F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E53CFA9-DA45-4C7B-842E-21C528EC0F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E53CFA9-DA45-4C7B-842E-21C528EC0F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E53CFA9-DA45-4C7B-842E-21C528EC0F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E53CFA9-DA45-4C7B-842E-21C528EC0F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{030420F6-E04B-417D-9072-1657A9F88C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{030420F6-E04B-417D-9072-1657A9F88C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{030420F6-E04B-417D-9072-1657A9F88C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{030420F6-E04B-417D-9072-1657A9F88C0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +103,9 @@ Global
 		{8C961DE6-8041-4679-8F8D-217FFAC97C28} = {8A28160C-064D-47F6-8361-D8A5E5446A58}
 		{659712D6-A114-4CEA-9DD4-00F5C8B0B5D7} = {8A28160C-064D-47F6-8361-D8A5E5446A58}
 		{D2FD2789-4601-4924-8754-83AB390F3450} = {9AF21295-CC86-45B2-9668-3A33C535C21E}
+		{1717E0C1-F26D-4586-9163-CD25CD2ED4F9} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
+		{3E53CFA9-DA45-4C7B-842E-21C528EC0F6B} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
+		{030420F6-E04B-417D-9072-1657A9F88C0B} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A2D16C0-C8FD-4A28-BA89-55EC47253D26}

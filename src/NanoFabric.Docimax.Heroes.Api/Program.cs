@@ -20,6 +20,6 @@ namespace NanoFabric.Docimax.Heroes.Api
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-            .UseUrls("http://*:62551");
+            .UseUrls("http://localhost:62551");
     }
 }

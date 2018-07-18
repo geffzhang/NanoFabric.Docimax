@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NanoFabric.AspNetCore;
 using NanoFabric.Docimax.Core;
 using NanoFabric.Docimax.Grains.Contracts.Heroes;
 using NanoFabric.Docimax.Heroes.Api.Infrastructure;
@@ -42,9 +43,9 @@ namespace NanoFabric.Docimax.Heroes.Api
                     .UseSignalR()
             };
 
-            services.AddSignalR()
-                .AddOrleans();
+      
 
+            services.AddNanoFabricConsul(Configuration);
             services.UseOrleansClient(clientBuilderContext);
             services.AddHeroesClients();
             services.AddMvc();
@@ -55,6 +56,7 @@ namespace NanoFabric.Docimax.Heroes.Api
                     .AllowAnyHeader()
                     .AllowCredentials();
             }));
+            services.AddSignalR().AddOrleans();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,7 +78,8 @@ namespace NanoFabric.Docimax.Heroes.Api
                     routes.MapHub<UserNotificationHub>("/userNotifications");
                 });
 
-                app.UseMvc();
-            }
+                app.UseMvc()
+                .UseConsulRegisterService(Configuration);
+        }
     }
 }

@@ -16,12 +16,13 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
     {
         public static ISiloHostBuilder UseHeroConfiguration(this ISiloHostBuilder siloHost, IAppInfo appInfo, HostingEnvironment hostingEnv)
         {
-            siloHost
-                .AddMemoryGrainStorage(OrleansConstants.GrainMemoryStorage)
+              siloHost
                 .Configure<ClusterOptions>(options =>
                 {
-                    options.ClusterId = appInfo.ClusterId;
-                    options.ServiceId = appInfo.Name;
+                    //options.ClusterId = appInfo.ClusterId;
+                    //options.ServiceId = appInfo.Name;
+                    options.ClusterId = "dev";
+                    options.ServiceId = "Heroes";
                 });
 
             if (hostingEnv.IsDev)
@@ -29,7 +30,7 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
             if (appInfo.IsDockerized)
                 siloHost.UseDockerSwarm();
             else
-                siloHost.UseDevelopmentClustering();
+                siloHost.UseConsulClustering(appInfo);
 
             return siloHost;
         }
@@ -58,6 +59,19 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
                     .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))
                     .ConfigureEndpoints(siloAddress, siloPort, gatewayPort) //, listenOnAnyHostAddress: true)
                 ;
+        }
+
+        private static ISiloHostBuilder UseConsulClustering(this ISiloHostBuilder siloHost, IAppInfo appInfo)
+        {
+            var siloAddress = IPAddress.Loopback;
+            var siloPort = 11111;
+            var gatewayPort = 30000;
+
+            return siloHost
+                      .UseConsulClustering(options => {
+                          options.Address = new Uri(appInfo.ConsulEndPoint);
+                      })
+                      .ConfigureEndpoints(siloAddress, siloPort, gatewayPort);
         }
 
         private static ISiloHostBuilder UseDockerSwarm(this ISiloHostBuilder siloHost)
