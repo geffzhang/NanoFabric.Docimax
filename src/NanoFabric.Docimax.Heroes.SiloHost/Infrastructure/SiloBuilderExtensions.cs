@@ -19,8 +19,6 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
               siloHost
                 .Configure<ClusterOptions>(options =>
                 {
-                    //options.ClusterId = appInfo.ClusterId;
-                    //options.ServiceId = appInfo.Name;
                     options.ClusterId = "dev";
                     options.ServiceId = "Heroes";
                 });

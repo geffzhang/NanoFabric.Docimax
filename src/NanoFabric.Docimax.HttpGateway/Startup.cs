@@ -10,6 +10,7 @@ using NanoFabric.AspNetCore;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Ocelot.DependencyInjection;
+using Ocelot.JwtAuthorize;
 using Ocelot.Middleware;
 using System;
 using System.IO;
@@ -43,28 +44,10 @@ namespace NanoFabric.Docimax.HttpGateway
                 })
                 .WithDictionaryHandle();
             };
-            var authority = Configuration.GetValue<string>("Authority");
-
-            var authenticationProviderKey = "TestKey";
-            Action<IdentityServerAuthenticationOptions> options = o =>
-            {
-                o.Authority = authority;
-                o.ApiName = "api";
-                o.SupportedTokens = SupportedTokens.Both;
-                o.ApiSecret = "secret";
-            };
-            services.AddAuthentication()
-            //.AddJwtBearer("TestKey", x =>
-            //{
-            //    x.Authority = "test";
-            //    x.Audience = "test";
-            //});
-            .AddIdentityServerAuthentication(authenticationProviderKey, options);
-
+            services.AddOcelotJwtAuthorize();
             services.AddOcelot()
                 .AddStoreOcelotConfigurationInConsul()
-                .AddCacheManager(settings)               
-                .AddAdministration("/administration", "secret"); 
+                .AddCacheManager(settings); 
 
             services.AddNanoFabricConsul(Configuration);
             var metrics = AppMetrics.CreateDefaultBuilder()
@@ -87,7 +70,8 @@ namespace NanoFabric.Docimax.HttpGateway
             app.UseConsulRegisterService(Configuration);
             app.UseMetricsAllMiddleware();
             app.UseMetricsAllEndpoints();     
-            app.UseOcelot().Wait();
+            app.UseOcelot()
+                .Wait();
            
         }
     }

@@ -4,7 +4,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
@@ -24,29 +23,4 @@
     <PackageReference Include="OrleansDashboard" Version="2.0.7" />
     <PackageReference Include="SignalR.Orleans" Version="1.0.3" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\NanoFabric.Docimax.Core\NanoFabric.Docimax.Core.csproj" />
-    <ProjectReference Include="..\NanoFabric.Docimax.Grains.Contracts.Heroes\NanoFabric.Docimax.Grains.Contracts.Heroes.csproj" />
-    <ProjectReference Include="..\NanoFabric.Docimax.Grains.Heroes\NanoFabric.Docimax.Grains.Heroes.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="nlog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <PropertyGroup>
-    <ServerGarbageCollection>true</ServerGarbageCollection>
-    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
 </Project>

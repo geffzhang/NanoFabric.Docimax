@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Orleans.Transactions" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NanoFabric.Docimax.Core\NanoFabric.Docimax.Core.csproj" />
+    <ProjectReference Include="..\NanoFabric.Docimax.Grains.Contracts.AccountManager\NanoFabric.Docimax.Grains.Contracts.AccountManager.csproj" />
+  </ItemGroup>
+
+</Project>
