@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,12 +12,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NanoFabric.AspNetCore;
 using NanoFabric.Docimax.Core;
+using NanoFabric.Docimax.Core.Utils;
 using NanoFabric.Docimax.Grains.Contracts.Heroes;
 using NanoFabric.Docimax.Heroes.Api.Infrastructure;
 using NanoFabric.Docimax.Heroes.Api.Realtime;
 using NanoFabric.Docimax.Heroes.Client;
+using NanoFabric.Docimax.OrleansClient;
 using Ocelot.JwtAuthorize;
 using Orleans;
+using Orleans.Configuration;
+using Orleans.Hosting;
 
 namespace NanoFabric.Docimax.Heroes.Api
 {
@@ -36,17 +41,31 @@ namespace NanoFabric.Docimax.Heroes.Api
             var appInfo = new AppInfo(Configuration);
             services.AddSingleton<IAppInfo>(appInfo);
 
-            var clientBuilderContext = new ClientBuilderContext
-            {
-                Configuration = Configuration,
-                AppInfo = appInfo,
-                ConfigureClientBuilder = clientbuilder =>
-                    clientbuilder.ConfigureApplicationParts(x => x.AddApplicationPart(typeof(IHeroCollectionGrain).Assembly).WithReferences())
-                    .UseSignalR()
-            };      
+            //var clientBuilderContext = new ClientBuilderContext
+            //{
+            //    Configuration = Configuration,
+            //    AppInfo = appInfo,
+            //    ConfigureClientBuilder = clientbuilder =>
+            //        clientbuilder.ConfigureApplicationParts(x => x.AddApplicationPart(typeof(IHeroCollectionGrain).Assembly).WithReferences())
+            //        .UseSignalR()
+            //};      
+            //services.UseOrleansClient(clientBuilderContext);
 
             services.AddNanoFabricConsul(Configuration);
-            services.UseOrleansClient(clientBuilderContext);
+            services.AddOrleansClient(build =>
+            {
+                build.AddClient(Configuration.GetSection("OrleansClient:Heroes"), builder =>
+                {
+                    var c = Configuration.GetSection("OrleansClient:Heroes").Get<OrleansClientOptions>();
+                    builder.ConfigureApplicationParts(x => x.AddApplicationPart(typeof(IHeroCollectionGrain).Assembly).WithReferences())
+                    .UseSignalR();
+                });              
+            });
+
+            //var client = InitializeWithRetries(clientBuilder).Result;
+            //services.AddSingleton(client);
+            //services.AddSignalR().AddOrleans(new SignalRClusterClientProvider(client));
+
             services.AddHeroesClients();
             services.AddMvc();
             services.AddCors(o => o.AddPolicy("TempCorsPolicy", builder =>
@@ -56,12 +75,40 @@ namespace NanoFabric.Docimax.Heroes.Api
                     .AllowAnyHeader()
                     .AllowCredentials();
             }));
-            services.AddSignalR().AddOrleans();
 
-            services.AddApiJwtAuthorize((context) =>
+            //services.AddApiJwtAuthorize((context) =>
+            //{
+            //    return ValidatePermission(context);
+            //});
+        }
+
+
+        private static async Task<IClusterClient> InitializeWithRetries(IClusterClient clientConfig)
+        {
+            var attempt = 0;
+            var stopwatch = Stopwatch.StartNew();
+            var clientClusterConfig = new ClientConfiguration();
+
+            await Task.Delay(TimeSpan.FromSeconds(clientClusterConfig.DelayInitialConnectSeconds));
+
+            var client = clientConfig;
+            await client.Connect(async ex =>
             {
-                return ValidatePermission(context);
+                attempt++;
+                if (attempt > clientClusterConfig.ConnectionRetry.TotalRetries)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+
+                var delay = RandomUtils.GenerateNumber(clientClusterConfig.ConnectionRetry.MinDelaySeconds, clientClusterConfig.ConnectionRetry.MaxDelaySeconds);
+                Console.WriteLine("Client cluster failed to connect. Attempt {0} of {1}. Retrying in {2}s.", attempt, clientClusterConfig.ConnectionRetry.TotalRetries, delay);
+                await Task.Delay(TimeSpan.FromSeconds(delay));
+                return true;
             });
+
+            Console.WriteLine("Client cluster connected successfully to silo in {0:#.##}s.", stopwatch.Elapsed.TotalSeconds);
+            return client;
         }
 
         /// <summary>
@@ -99,7 +146,7 @@ namespace NanoFabric.Docimax.Heroes.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app,IHostingEnvironment env, ILoggerFactory loggerFactory	)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env, ILoggerFactory loggerFactory	)
 		{
                 loggerFactory.AddConsole(Configuration.GetSection("Logging"));
                 loggerFactory.AddDebug();
@@ -111,11 +158,11 @@ namespace NanoFabric.Docimax.Heroes.Api
                     app.UseDeveloperExceptionPage();
                 }
 
-                app.UseSignalR(routes =>
-                {
-                    routes.MapHub<HeroHub>("/realtime/hero");
-                    routes.MapHub<UserNotificationHub>("/userNotifications");
-                });
+                //app.UseSignalR(routes =>
+                //{
+                //    routes.MapHub<HeroHub>("/realtime/hero");
+                //    routes.MapHub<UserNotificationHub>("/userNotifications");
+                //});
 
                 app.UseMvc()
                 .UseConsulRegisterService(Configuration);

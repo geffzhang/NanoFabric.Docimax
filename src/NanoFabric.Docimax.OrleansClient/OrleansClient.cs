@@ -13,55 +13,59 @@ namespace NanoFabric.Docimax.OrleansClient
         private readonly Dictionary<string, IClusterClient> clients = new Dictionary<string, IClusterClient>();
         private readonly IServiceProvider ServiceProvider;
         private readonly ILogger Logger;
+
         public OrleansClient(IServiceProvider serviceProvider, ILogger<OrleansClient> logger)
         {
             this.Logger = logger;
             this.ServiceProvider = serviceProvider;
         }
 
-        public TGrainInterface GetGrain<TGrainInterface>(Guid primaryKey, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithGuidKey
+        public TGrainInterface GetGrain<TGrainInterface>(Guid primaryKey, string serviceId,string grainClassNamePrefix = null) where TGrainInterface : IGrainWithGuidKey
         {
-            var i = this.GetClusterClient<TGrainInterface>().GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
+            var i = this.GetClusterClient<TGrainInterface>(serviceId).GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
             return i;
 
         }
 
-        public TGrainInterface GetGrain<TGrainInterface>(long primaryKey, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithIntegerKey
+        public TGrainInterface GetGrain<TGrainInterface>(long primaryKey, string serviceId, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithIntegerKey
         {
-            var i = this.GetClusterClient<TGrainInterface>().GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
+            var i = this.GetClusterClient<TGrainInterface>(serviceId).GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
             return i;
         }
 
-        public TGrainInterface GetGrain<TGrainInterface>(string primaryKey,string grainClassNamePrefix = null) where TGrainInterface : IGrainWithStringKey
+        public TGrainInterface GetGrain<TGrainInterface>(string primaryKey, string serviceId,string grainClassNamePrefix = null) where TGrainInterface : IGrainWithStringKey
         {
-            var i = this.GetClusterClient<TGrainInterface>().GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
+            var i = this.GetClusterClient<TGrainInterface>(serviceId).GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
             return i;
 
         }
 
-        public TGrainInterface GetGrain<TGrainInterface>(Guid primaryKey, string keyExtension, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithGuidCompoundKey
+        public TGrainInterface GetGrain<TGrainInterface>(Guid primaryKey, string keyExtension,string serviceId, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithGuidCompoundKey
         {
-            var i = this.GetClusterClient<TGrainInterface>().GetGrain<TGrainInterface>(primaryKey, keyExtension, grainClassNamePrefix);
+            var i = this.GetClusterClient<TGrainInterface>(serviceId).GetGrain<TGrainInterface>(primaryKey, keyExtension, grainClassNamePrefix);
             return i;
         }
 
-        public TGrainInterface GetGrain<TGrainInterface>(long primaryKey, string keyExtension, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithIntegerCompoundKey
+        public TGrainInterface GetGrain<TGrainInterface>(long primaryKey, string keyExtension, string serviceId, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithIntegerCompoundKey
         {
-            var i = this.GetClusterClient<TGrainInterface>().GetGrain<TGrainInterface>(primaryKey, keyExtension, grainClassNamePrefix);
+            var i = this.GetClusterClient<TGrainInterface>(serviceId).GetGrain<TGrainInterface>(primaryKey, keyExtension, grainClassNamePrefix);
             return i;
 
         }
 
 
         /// <summary>
-        /// 获取Orleans ClusterClient
+        /// Get Orleans ClusterClient
         /// </summary>
         /// <typeparam name="TGrainInterface"></typeparam>
-        private IClusterClient GetClusterClient<TGrainInterface>()
+        private IClusterClient GetClusterClient<TGrainInterface>(string serviceId)
         {
             IClusterClient client = null;
-            string name = typeof(TGrainInterface).Namespace;
-
+            string name = serviceId;
+            if(string.IsNullOrEmpty(serviceId))
+            {
+                name = typeof(TGrainInterface).Namespace;
+            }
             int attempt = 0;
             while (true)
             {

@@ -23,4 +23,7 @@
     <PackageReference Include="OrleansDashboard" Version="2.0.7" />
     <PackageReference Include="SignalR.Orleans" Version="1.0.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NanoFabric.Docimax.Grains.AccountManager\NanoFabric.Docimax.Grains.AccountManager.csproj" />
+  </ItemGroup>
 </Project>

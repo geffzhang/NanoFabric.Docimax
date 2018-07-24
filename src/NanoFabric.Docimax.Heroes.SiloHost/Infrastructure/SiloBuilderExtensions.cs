@@ -14,21 +14,42 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
 {
     public static class SiloBuilderExtensions
     {
+        /// <summary>
+        /// Microsoft SQL Server invariant name string.
+        /// </summary>
+        public const string InvariantNameSqlServer = "System.Data.SqlClient";
+
+        /// <summary>
+        /// Oracle Database server invariant name string.
+        /// </summary>
+        public const string InvariantNameOracleDatabase = "Oracle.DataAccess.Client";
+
+        /// <summary>
+        /// SQLite invariant name string.
+        /// </summary>
+        public const string InvariantNameSqlLite = "System.Data.SQLite";
+
+        /// <summary>
+        /// MySql invariant name string.
+        /// </summary>
+        public const string InvariantNameMySql = "MySql.Data.MySqlClient";
+
+        /// <summary>
+        /// PostgreSQL invariant name string.
+        /// </summary>
+        public const string InvariantNamePostgreSql = "Npgsql";
+
+
         public static ISiloHostBuilder UseHeroConfiguration(this ISiloHostBuilder siloHost, IAppInfo appInfo, HostingEnvironment hostingEnv)
         {
               siloHost
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
-                    options.ServiceId = "Heroes";
+                    options.ServiceId = "Docimax.Heroes";
                 });
 
-            if (hostingEnv.IsDev)
-                siloHost.UseDevelopment();
-            if (appInfo.IsDockerized)
-                siloHost.UseDockerSwarm();
-            else
-                siloHost.UseConsulClustering(appInfo);
+            siloHost.UseAdoClustering(appInfo);
 
             return siloHost;
         }
@@ -46,45 +67,33 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
             return siloHost;
         }
 
-        private static ISiloHostBuilder UseDevelopmentClustering(this ISiloHostBuilder siloHost)
+
+        private static ISiloHostBuilder UseAdoClustering(this ISiloHostBuilder siloHost, IAppInfo appInfo)
         {
             var siloAddress = IPAddress.Loopback;
             var siloPort = 11111;
             var gatewayPort = 30000;
 
-            return siloHost
-                    .AddMemoryGrainStorage(OrleansConstants.GrainPersistenceStorage)
-                    .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))
-                    .ConfigureEndpoints(siloAddress, siloPort, gatewayPort) //, listenOnAnyHostAddress: true)
-                ;
+            var invariant = InvariantNameSqlServer; // for Microsoft SQL Server
+            string orleansConnectionString = "Data Source=120.132.116.226;Initial Catalog=Orleans;User Id=sa;Password =m54135ME;MultipleActiveResultSets=true";
+
+            return siloHost.UseConsulClustering(options => {
+                options.Address = new Uri(appInfo.ConsulEndPoint);
+            })
+                .UseAdoNetReminderService(opt =>
+                {
+                    opt.Invariant = invariant;
+                    opt.ConnectionString = orleansConnectionString;
+                })
+                .AddAdoNetGrainStorageAsDefault(opt =>
+                {
+                    opt.ConnectionString = orleansConnectionString;
+                    opt.Invariant = invariant;
+                    opt.UseJsonFormat = true;
+                })
+                .ConfigureEndpoints(siloAddress, siloPort, gatewayPort, listenOnAnyHostAddress: true);
         }
 
-        private static ISiloHostBuilder UseConsulClustering(this ISiloHostBuilder siloHost, IAppInfo appInfo)
-        {
-            var siloAddress = IPAddress.Loopback;
-            var siloPort = 11111;
-            var gatewayPort = 30000;
-
-            return siloHost
-                      .UseConsulClustering(options => {
-                          options.Address = new Uri(appInfo.ConsulEndPoint);
-                      })
-                      .ConfigureEndpoints(siloAddress, siloPort, gatewayPort);
-        }
-
-        private static ISiloHostBuilder UseDockerSwarm(this ISiloHostBuilder siloHost)
-        {
-            var ips = Dns.GetHostAddressesAsync(Dns.GetHostName()).Result;
-            var defaultIp = ips.FirstOrDefault();
-
-            return siloHost
-                .ConfigureEndpoints(
-                    defaultIp,
-                    RandomUtils.GenerateNumber(30001, 30100), // todo: really needed random?
-                    RandomUtils.GenerateNumber(20001, 20100), // todo: really needed random?
-                    listenOnAnyHostAddress: true
-                );
-        }
 
     }
 }

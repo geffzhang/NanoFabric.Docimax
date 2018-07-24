@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Clients", "2. Clients", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. SiloHost", "4. SiloHost", "{9AF21295-CC86-45B2-9668-3A33C535C21E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Grains.Contracts.Adventure", "src\NanoFabric.Docimax.Grains.Contracts.Adventure\NanoFabric.Docimax.Grains.Contracts.Adventure.csproj", "{87A024E3-E58C-4CFC-9E4D-77512C937B7B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Grains.Contracts.Heroes", "src\NanoFabric.Docimax.Grains.Contracts.Heroes\NanoFabric.Docimax.Grains.Contracts.Heroes.csproj", "{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Grains.Heroes", "src\NanoFabric.Docimax.Grains.Heroes\NanoFabric.Docimax.Grains.Heroes.csproj", "{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF}"
@@ -47,11 +45,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Grains.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.AccountManager.SiloHost", "src\NanoFabric.Docimax.AccountManager.SiloHost\NanoFabric.Docimax.AccountManager.SiloHost.csproj", "{31892F21-9A75-49DE-B02D-8198903972CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoFabric.Docimax.AspNetCore", "src\NanoFabric.Docimax.AspNetCore\NanoFabric.Docimax.AspNetCore.csproj", "{6440CEB4-54CB-4E45-B6BF-B1E1DFD5F917}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.AspNetCore", "src\NanoFabric.Docimax.AspNetCore\NanoFabric.Docimax.AspNetCore.csproj", "{6440CEB4-54CB-4E45-B6BF-B1E1DFD5F917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoFabric.Docimax.Heroes", "src\NanoFabric.Docimax.Heroes\NanoFabric.Docimax.Heroes.csproj", "{5CEAC452-85BA-4DDF-8CC1-DDB9B59F9D8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Heroes", "src\NanoFabric.Docimax.Heroes\NanoFabric.Docimax.Heroes.csproj", "{5CEAC452-85BA-4DDF-8CC1-DDB9B59F9D8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoFabric.Docimax.AccountManager", "src\NanoFabric.Docimax.AccountManager\NanoFabric.Docimax.AccountManager.csproj", "{63CE9FDE-2127-41F4-9AB7-B034C170EDA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.AccountManager", "src\NanoFabric.Docimax.AccountManager\NanoFabric.Docimax.AccountManager.csproj", "{63CE9FDE-2127-41F4-9AB7-B034C170EDA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +65,6 @@ Global
 		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87A024E3-E58C-4CFC-9E4D-77512C937B7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -142,7 +136,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3AAB33E0-2A4E-4284-8BE3-CEF1B915C415} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
 		{7DEC8F5E-409C-48A2-81E7-DBDA26E155CE} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
-		{87A024E3-E58C-4CFC-9E4D-77512C937B7B} = {136A4CDF-B7F0-4A89-A07B-46802F4298EB}
 		{B9ACBA0E-05B6-489B-B4CC-AD754BE98DE7} = {136A4CDF-B7F0-4A89-A07B-46802F4298EB}
 		{0B67CFBD-E63A-4ECC-9F9F-D7F3AD39BBBF} = {136A4CDF-B7F0-4A89-A07B-46802F4298EB}
 		{5E6332DF-DCE5-461B-B91A-4F96E7F3FC5E} = {8A28160C-064D-47F6-8361-D8A5E5446A58}

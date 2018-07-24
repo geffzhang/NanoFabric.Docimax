@@ -52,7 +52,7 @@ namespace NanoFabric.Docimax.Grains.Heroes
             var promises = new List<Task<Hero>>();
             foreach (var heroId in heroIds)
             {
-                var heroGrain = GrainFactory.GetHeroGrain(heroId);
+                var heroGrain = GrainFactory.GetGrain<IHeroGrain>(heroId);
                 promises.Add(heroGrain.Get());
             }
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NanoFabric.Docimax.Core.Utils;
+using NanoFabric.Docimax.Grains.Contracts.Heroes;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
@@ -78,22 +80,17 @@ namespace NanoFabric.Docimax.Heroes.Api.Infrastructure
             ClientBuilderContext context
         )
         {
-            if (!context.AppInfo.IsDockerized)
+           return clientBuilder
+            .Configure<ClusterOptions>(config =>
             {
-                //var siloAddress = IPAddress.Loopback;
-                //const int gatewayPort = 30000; // 10400
-                clientBuilder.UseConsulClustering(options => {
-                    options.Address = new Uri(context.ConsulEndPoint);
-                });
-            }
-
-            return clientBuilder.Configure<ClusterOptions>(config =>
-            {
-                //config.ClusterId = context.ClusterId;
-                //config.ServiceId = context.ServiceId;
                 config.ClusterId = "dev";
                 config.ServiceId = "Heroes";
-            });
+            })
+            .UseConsulClustering(options => {
+                options.Address = new Uri(context.ConsulEndPoint);
+            })
+            .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(IHeroGrain).Assembly).WithReferences())
+             .ConfigureLogging(logging => logging.AddConsole());
         }
 
     }

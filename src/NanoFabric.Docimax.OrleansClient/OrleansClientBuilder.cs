@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Runtime;
+using Orleans.Hosting;
 using System;
 
 namespace NanoFabric.Docimax.OrleansClient
@@ -64,7 +65,13 @@ namespace NanoFabric.Docimax.OrleansClient
                         }
                     });
                 }
-            
+                if (!string.IsNullOrEmpty(options.ConsulAddress))
+                {
+                    build.UseConsulClustering((ConsulClusteringClientOptions opt) =>
+                    {
+                        opt.Address = new Uri(options.ConsulAddress);
+                    });
+                }
                 return build;
             });
             return this;
