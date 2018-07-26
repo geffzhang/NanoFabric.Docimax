@@ -12,8 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.2" />
     <PackageReference Include="Microsoft.Orleans.Client" Version="2.0.3" />
-    <PackageReference Include="Ocelot.JwtAuthorize" Version="0.0.400" />
-    <PackageReference Include="SignalR.Orleans" Version="1.0.3" />
+    <PackageReference Include="SignalR.Orleans" Version="1.0.5" />
     <PackageReference Include="System.Reactive" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Interfaces" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />

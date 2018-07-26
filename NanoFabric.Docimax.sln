@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.Heroes",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NanoFabric.Docimax.AccountManager", "src\NanoFabric.Docimax.AccountManager\NanoFabric.Docimax.AccountManager.csproj", "{63CE9FDE-2127-41F4-9AB7-B034C170EDA2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.OrleansHttpGateway", "src\Ocelot.OrleansHttpGateway\Ocelot.OrleansHttpGateway.csproj", "{F66C40B6-FE62-4E40-A95A-7844227C8986}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{63CE9FDE-2127-41F4-9AB7-B034C170EDA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63CE9FDE-2127-41F4-9AB7-B034C170EDA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63CE9FDE-2127-41F4-9AB7-B034C170EDA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66C40B6-FE62-4E40-A95A-7844227C8986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66C40B6-FE62-4E40-A95A-7844227C8986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66C40B6-FE62-4E40-A95A-7844227C8986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66C40B6-FE62-4E40-A95A-7844227C8986}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{6440CEB4-54CB-4E45-B6BF-B1E1DFD5F917} = {BA8FD232-BAD9-4D1B-933E-D18680E7CE3C}
 		{5CEAC452-85BA-4DDF-8CC1-DDB9B59F9D8E} = {BA8FD232-BAD9-4D1B-933E-D18680E7CE3C}
 		{63CE9FDE-2127-41F4-9AB7-B034C170EDA2} = {BA8FD232-BAD9-4D1B-933E-D18680E7CE3C}
+		{F66C40B6-FE62-4E40-A95A-7844227C8986} = {47ACC169-1BD0-4D04-B795-18089ACD070E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A2D16C0-C8FD-4A28-BA89-55EC47253D26}

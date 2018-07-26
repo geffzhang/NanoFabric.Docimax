@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NanoFabric.Docimax.Grains.Heroes
 {
-    [StorageProvider(ProviderName = OrleansConstants.GrainMemoryStorage)]
+    [StorageProvider(ProviderName = OrleansConstants.GrainPersistenceStorage)]
     public class HeroCollectionGrain : AppGrain<HeroCollectionState>, IHeroCollectionGrain
     {
         private readonly IHeroDataClient _heroDataClient;

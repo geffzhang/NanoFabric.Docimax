@@ -10,7 +10,6 @@ using NanoFabric.AspNetCore;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Ocelot.DependencyInjection;
-using Ocelot.JwtAuthorize;
 using Ocelot.Middleware;
 using System;
 using System.IO;
@@ -44,7 +43,7 @@ namespace NanoFabric.Docimax.HttpGateway
                 })
                 .WithDictionaryHandle();
             };
-            services.AddOcelotJwtAuthorize();
+
             services.AddOcelot()
                 .AddStoreOcelotConfigurationInConsul()
                 .AddCacheManager(settings); 

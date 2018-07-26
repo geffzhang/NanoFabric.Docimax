@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NanoFabric.Docimax.Grains.Heroes
 {
-    [StorageProvider(ProviderName = OrleansConstants.GrainMemoryStorage)]
+    [StorageProvider(ProviderName = OrleansConstants.GrainPersistenceStorage)]
     public class UserNotificationGrain : AppGrain<UserNotificationState>, IUserNotificationGrain
     {
         private HubContext<IUserNotificationHub> _hubContext;

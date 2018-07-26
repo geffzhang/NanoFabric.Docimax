@@ -85,7 +85,10 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
         {
             var builder = new SiloHostBuilder()
                 .UseHeroConfiguration(appInfo, _hostingEnv)
-                .ConfigureLogging(logging => logging.AddNLog())
+                .ConfigureLogging(logging => {
+                    logging.AddNLog();
+                    logging.AddConsole();
+                })
                 .ConfigureApplicationParts(parts => parts
                     .AddApplicationPart(typeof(HeroGrain).Assembly).WithReferences()
                 )
