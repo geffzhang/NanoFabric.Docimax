@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NanoFabric.Docimax.Core\NanoFabric.Docimax.Core.csproj" />
+    <ProjectReference Include="..\Orleans.Authorization\Orleans.Authorization.csproj" />
   </ItemGroup>
 
 </Project>

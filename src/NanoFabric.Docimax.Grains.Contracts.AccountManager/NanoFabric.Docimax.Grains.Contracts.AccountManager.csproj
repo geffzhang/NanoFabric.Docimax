@@ -9,4 +9,8 @@
     <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Orleans.Authorization\Orleans.Authorization.csproj" />
+  </ItemGroup>
+
 </Project>

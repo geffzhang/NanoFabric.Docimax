@@ -38,12 +38,14 @@ namespace NanoFabric.Docimax.AccountManager.SiloHost
 
         private static async Task<ISiloHost> StartSilo()
         {
-            var builder = new SiloHostBuilder()
-                .UseLocalhostClustering()
+            var builder = new SiloHostBuilder()               
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
                     options.ServiceId = "AccountTransferApp";
+                })
+                .UseConsulClustering(options => {
+                    options.Address = new Uri("http://127.0.0.1:8500");
                 })
                 .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
                 .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(AccountGrain).Assembly).WithReferences())

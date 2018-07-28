@@ -1,27 +1,32 @@
 {
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/auth/{url}",
+      "DownstreamPathTemplate": "/connect/token",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/auth/{url}",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 50774
-        }
-      ],
+      "ServiceName": "DocimaxIdentity",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "UpstreamPathTemplate": "/connect/token",
+      "UpstreamHttpMethod": "post",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
-        "DurationOfBreak": 10,
-        "TimeoutValue": 5000
+        "DurationOfBreak": 5000,
+        "TimeoutValue": 5
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 15,
+        "Limit": 200
       }
     },
     {
-      "DownstreamPathTemplate": "/api/{url}",
-      "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/api/{url}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "DownstreamPathTemplate": "/hero/{url}",
+      "DownstreamScheme": "orleans",
+      "UpstreamPathTemplate": "/api/hero/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -34,9 +39,30 @@
         "TimeoutValue": 5000
       },
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [
-        ]
+        "AuthenticationProviderKey": "DocimaxHeros",
+        "AllowedScopes": []
+      },
+      "AddClaimsToRequest": {
+        "GrainKey": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/heros/{url}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/api/heros/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "ServiceName": "DocimaxHerosApi",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 10,
+        "TimeoutValue": 5000
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "DocimaxHerosApi",
+        "AllowedScopes": []
       }
     }
   ],
@@ -45,7 +71,27 @@
     "BaseUrl": "http://localhost:8000",
     "ServiceDiscoveryProvider": {
       "Host": "localhost",
-      "Port": 8500
+      "Port": 8500,
+      "Type": "PollConsul",
+      "PollingInterval": 100
+    }
+  },
+  "Orleans": {
+    "Clients": {
+      "Docimaxheroes": {
+        "ServiceName": "heroes",
+        "ServiceId": "heroes",
+        "ClusterId": "dev",
+        "InterfaceDllPathName": "F:\\Workshop\\Github\\NanoFabric.Docimax\\NanoFabric.Docimax\\src\\NanoFabric.Docimax.Grains.Contracts.Heroes\\bin\\Debug\\netstandard2.0\\NanoFabric.Docimax.Grains.Contracts.Heroes.dll",
+        "InterfaceNameTemplate": "I{GrainName}Service"
+      },
+      "AccountTransfer": {
+        "ServiceName": "AccountTransfer",
+        "ServiceId": "AccountTransferApp",
+        "ClusterId": "dev",
+        "InterfaceDllPathName": "F:\\Workshop\\Github\\NanoFabric.Docimax\\NanoFabric.Docimax\\src\\NanoFabric.Docimax.Grains.Contracts.AccountManager\\bin\\Debug\\netstandard2.0\\NanoFabric.Docimax.Grains.Contracts.AccountManager.dll",
+        "InterfaceNameTemplate": "I{GrainName}Service"
+      }
     }
   }
 }

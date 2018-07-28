@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using NanoFabric.AspNetCore;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.OrleansHttpGateway.Configuration;
 using System;
 using System.IO;
 
@@ -44,9 +46,42 @@ namespace NanoFabric.Docimax.HttpGateway
                 .WithDictionaryHandle();
             };
 
+            services.AddAuthentication()
+                  .AddJwtBearer("DocimaxHerosApi", x =>
+                  {
+                      x.RequireHttpsMetadata = false;
+                      x.Authority = "http://localhost:50774";
+                      x.Audience = "DocimaxHerosApi";
+                  })
+                 .AddJwtBearer("AccountTransfer", x =>
+                 {
+                     x.RequireHttpsMetadata = false;
+                     x.Authority = "http://localhost:50774";
+                     x.Audience = "AccountTransfer";
+                 })
+                 .AddJwtBearer("DocimaxHeros", x =>
+                 {
+                     x.RequireHttpsMetadata = false;
+                     x.Authority = "http://localhost:50774";
+                     x.Audience = "DocimaxHeros";
+                 });
+
             services.AddOcelot()
                 .AddStoreOcelotConfigurationInConsul()
-                .AddCacheManager(settings); 
+                .AddCacheManager(settings)
+                .AddOrleansHttpGateway((OrleansRequesterConfiguration config) =>
+                 {
+                     config.MapRouteToGraininterface = (route) =>
+                     {
+                         return "I{GrainName}Service".Replace("{GrainName}", route.GrainName);
+                     };
+                     config.RequestContextInjection = (context) =>
+                     {
+                         Orleans.Runtime.RequestContext.Set("Client-IP", context.HttpContext.Connection.RemoteIpAddress.ToString());
+                         if (context.HttpContext.Request.Headers.TryGetValue("Authorization", out StringValues value))
+                             Orleans.Runtime.RequestContext.Set("Authorization", value);
+                     };
+                 }); ; 
 
             services.AddNanoFabricConsul(Configuration);
             var metrics = AppMetrics.CreateDefaultBuilder()
@@ -69,8 +104,11 @@ namespace NanoFabric.Docimax.HttpGateway
             app.UseConsulRegisterService(Configuration);
             app.UseMetricsAllMiddleware();
             app.UseMetricsAllEndpoints();     
-            app.UseOcelot()
-                .Wait();
+            app.UseOcelot(config =>
+            {
+                config.AddOrleansHttpGateway();
+            })
+            .Wait();
            
         }
     }

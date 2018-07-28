@@ -75,6 +75,18 @@ namespace NanoFabric.Docimax.OrleansClient
                 return build;
             });
             return this;
-        }       
+        }
+
+        public IOrleansClientBuilder AddAuthentication(Action<OrleansAuthOptions> options)
+        {
+            this.services.AddOptions().Configure(options);
+            return this;
+        }
+
+        public IOrleansClientBuilder AddAuthentication(IConfiguration configuration)
+        {
+            this.services.AddOptions().Configure<OrleansAuthOptions>(configuration);
+            return this;
+        }
     }
 }

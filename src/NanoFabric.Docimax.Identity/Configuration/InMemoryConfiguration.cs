@@ -20,9 +20,9 @@ namespace NanoFabric.Docimax.Identity
         {
             return new[]
             {
-                new ApiResource("clientservice", "CAS Client Service"),
-                new ApiResource("productservice", "CAS Product Service"),
-                new ApiResource("agentservice", "CAS Agent Service")
+                new ApiResource("DocimaxHerosApi", "HerosApi Service"),
+                new ApiResource("DocimaxHeros", "Heros Service"),
+                new ApiResource("AccountTransfer", "AccountTransferApp Service")
             };
         }
 
@@ -36,8 +36,8 @@ namespace NanoFabric.Docimax.Identity
             {
                 new Client
                 {
-                    ClientId = "cas.sg.web.nb",
-                    ClientName = "CAS NB System MPA Client",
+                    ClientId = "cas.web.nb",
+                    ClientName = "CAS System MPA Client",
                     ClientSecrets = new [] { new Secret("websecret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowedScopes = new [] { "clientservice", "productservice",
@@ -46,8 +46,8 @@ namespace NanoFabric.Docimax.Identity
                 },
                 new Client
                 {
-                    ClientId = "cas.sg.mobile.nb",
-                    ClientName = "CAS NB System Mobile App Client",
+                    ClientId = "cas.mobile.nb",
+                    ClientName = "CAS System Mobile App Client",
                     ClientSecrets = new [] { new Secret("mobilesecret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowedScopes = new [] { "productservice",
@@ -56,8 +56,8 @@ namespace NanoFabric.Docimax.Identity
                 },
                 new Client
                 {
-                    ClientId = "cas.sg.spa.nb",
-                    ClientName = "CAS NB System SPA Client",
+                    ClientId = "cas.spa.nb",
+                    ClientName = "CAS System SPA Client",
                     ClientSecrets = new [] { new Secret("spasecret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowedScopes = new [] { "agentservice", "clientservice", "productservice",
@@ -66,8 +66,8 @@ namespace NanoFabric.Docimax.Identity
                 },
                 new Client
                 {
-                    ClientId = "cas.sg.mvc.nb.implicit",
-                    ClientName = "CAS NB System MVC App Client",
+                    ClientId = "cas.mvc.nb.implicit",
+                    ClientName = "CAS System MVC App Client",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     RedirectUris = { Configuration["Clients:MvcClient:RedirectUri"] },
                     PostLogoutRedirectUris = { Configuration["Clients:MvcClient:PostLogoutRedirectUri"] },
@@ -78,35 +78,6 @@ namespace NanoFabric.Docimax.Identity
                     },
                     //AccessTokenLifetime = 3600, // one hour
                     AllowAccessTokensViaBrowser = true // can return access_token to this client
-                }
-            };
-        }
-
-        /// <summary>
-        /// Define which uses will use this IdentityServer
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<TestUser> GetTestUsers()
-        {
-            return new[]
-            {
-                new TestUser
-                {
-                    SubjectId = "10001",
-                    Username = "edison@hotmail.com",
-                    Password = "edisonpassword"
-                },
-                new TestUser
-                {
-                    SubjectId = "10002",
-                    Username = "andy@hotmail.com",
-                    Password = "andypassword"
-                },
-                new TestUser
-                {
-                    SubjectId = "10003",
-                    Username = "leo@hotmail.com",
-                    Password = "leopassword"
                 }
             };
         }

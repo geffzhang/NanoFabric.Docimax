@@ -1,15 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NanoFabric.Docimax.OrleansClient;
-using Orleans;
-using Orleans.Configuration;
+using NanoFabric.Docimax.OrleansClient.AccessToken;
 using Orleans.Runtime;
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Reflection;
-using System.Text;
 
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -27,6 +21,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IOrleansClient, OrleansClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddSingleton(typeof(IKeyedServiceCollection<,>), typeof(KeyedServiceCollection<,>));
+            services.AddSingletonNamedService<IAccessTokenService, ClientAccessTokenService>((AccessTokenType.ClientCredentials.ToString()));
+            services.AddSingletonNamedService<IAccessTokenService, UserAccessTokenService>((AccessTokenType.UserCredentials.ToString()));
+            services.AddSingletonNamedService<IAccessTokenService, OrleansContextTokenService>((AccessTokenType.OrleansContext.ToString()));
             return services;
         }
 

@@ -28,23 +28,11 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
                 })
                 .AddMemoryGrainStorage(OrleansConstants.GrainPersistenceStorage)
                 .UseConsulClustering(options => {
-                    options.Address = new Uri(appInfo.ConsulEndPoint);
+                    options.Address = new Uri("http://127.0.0.1:8500");
                 })
                 .ConfigureEndpoints(siloAddress, siloPort, gatewayPort); ;
 
             return siloHost;
-        }
-
-        private static ISiloHostBuilder UseDevelopment(this ISiloHostBuilder siloHost)
-        {
-            var siloAddress = IPAddress.Loopback;
-            var siloPort = 11111;
-            var gatewayPort = 30000;
-
-            return siloHost
-                    .AddMemoryGrainStorage(OrleansConstants.GrainPersistenceStorage)
-                    .UseDevelopmentClustering(options => options.PrimarySiloEndpoint = new IPEndPoint(siloAddress, siloPort))
-                    .ConfigureEndpoints(siloAddress, siloPort, gatewayPort);
         }
 
     }

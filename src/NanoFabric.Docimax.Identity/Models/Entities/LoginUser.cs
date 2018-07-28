@@ -2,7 +2,7 @@
 
 namespace NanoFabric.Docimax.Identity.Models
 {
-    [Table("TLoginUsers")]
+    [Table("tLoginUsers")]
     public class LoginUser
     {
         [Column("LoginUserId")]
