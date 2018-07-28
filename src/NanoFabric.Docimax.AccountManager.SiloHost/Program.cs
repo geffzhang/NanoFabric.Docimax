@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using NanoFabric.Docimax.Grains.AccountManager;
 using Orleans;
+using Orleans.Authentication;
+using Orleans.Authentication.IdentityServer4;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Hosting.Development;
@@ -53,7 +55,17 @@ namespace NanoFabric.Docimax.AccountManager.SiloHost
                 .AddMemoryGrainStorageAsDefault()
                 .UseInClusterTransactionManager()
                 .UseInMemoryTransactionLog()
-                .UseTransactionalState();
+                .UseTransactionalState()
+                .AddAuthentication((HostBuilderContext context, AuthenticationBuilder authen) =>
+                {
+                    authen.AddIdentityServerAuthentication(opt =>
+                    {
+                        opt.RequireHttpsMetadata = true;
+                        opt.Authority = "http://localhost:50774";
+                        opt.ApiName = "DocimaxHeros";
+                    });
+                }, IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddAuthorizationFilter();
 
             var host = builder.Build();
             await host.StartAsync();

@@ -2,6 +2,8 @@
 using NanoFabric.Docimax.Core;
 using NanoFabric.Docimax.Core.Orleans;
 using NanoFabric.Docimax.Core.Utils;
+using Orleans.Authentication;
+using Orleans.Authentication.IdentityServer4;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using System;
@@ -30,7 +32,17 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
                 .UseConsulClustering(options => {
                     options.Address = new Uri("http://127.0.0.1:8500");
                 })
-                .ConfigureEndpoints(siloAddress, siloPort, gatewayPort); ;
+                .ConfigureEndpoints(siloAddress, siloPort, gatewayPort)
+                .AddAuthentication((HostBuilderContext context, AuthenticationBuilder authen) =>
+                {
+                    authen.AddIdentityServerAuthentication(opt =>
+                    {
+                        opt.RequireHttpsMetadata = true;
+                        opt.Authority = "http://localhost:50774";
+                        opt.ApiName = "AccountTransfer";
+                    });
+                }, IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddAuthorizationFilter(); 
 
             return siloHost;
         }

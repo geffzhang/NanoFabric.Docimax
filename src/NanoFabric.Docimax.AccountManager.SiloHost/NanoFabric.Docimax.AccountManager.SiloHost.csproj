@@ -22,5 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NanoFabric.Docimax.Grains.AccountManager\NanoFabric.Docimax.Grains.AccountManager.csproj" />
+    <ProjectReference Include="..\Orleans.Authentication.IdentityServer4\Orleans.Authentication.IdentityServer4.csproj" />
   </ItemGroup>
 </Project>
