@@ -30,11 +30,6 @@ namespace NanoFabric.Docimax.HttpGateway
             var url = hostingconfig[addressKey] ?? defaultAddress;
           
             IWebHostBuilder builder = new WebHostBuilder();
-            builder.ConfigureServices(s =>
-            {
-                s.AddSingleton(builder);
-                s.AddSingleton(new NodeId(url));
-            });
             builder.UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseConfiguration(hostingconfig)

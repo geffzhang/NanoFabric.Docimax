@@ -11,6 +11,7 @@ using NanoFabric.Docimax.Identity.Services;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using NanoFabric.AspNetCore;
 
 namespace NanoFabric.Docimax.Identity
 {
@@ -45,6 +46,7 @@ namespace NanoFabric.Docimax.Identity
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddProfileService<ProfileService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddNanoFabricConsul(Configuration);
 
         }
 
@@ -56,9 +58,10 @@ namespace NanoFabric.Docimax.Identity
                 app.UseDeveloperExceptionPage();
             }
             app.UseIdentityServer();
-            // for QuickStart-UI
+
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+            app.UseConsulRegisterService(Configuration);
         }
     }
 }

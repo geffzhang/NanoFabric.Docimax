@@ -3,12 +3,18 @@
     {
       "DownstreamPathTemplate": "/connect/token",
       "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/connect/token",
+      "UpstreamHttpMethod": "post",
       "ServiceName": "DocimaxIdentity",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 50774
+        }
+      ],
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "UpstreamPathTemplate": "/connect/token",
-      "UpstreamHttpMethod": "post",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 5000,
@@ -27,12 +33,16 @@
       "DownstreamScheme": "orleans",
       "UpstreamPathTemplate": "/api/hero/{url}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
+      "ServiceName": "DocimaxHerosApi",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "127.0.0.1",
+          "Port": 30000
         }
       ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10,
@@ -52,6 +62,7 @@
       "UpstreamPathTemplate": "/api/heros/{url}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "ServiceName": "DocimaxHerosApi",
+     "UseServiceDiscovery": true,
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },

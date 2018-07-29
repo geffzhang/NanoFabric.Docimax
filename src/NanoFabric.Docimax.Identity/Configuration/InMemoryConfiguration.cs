@@ -36,48 +36,18 @@ namespace NanoFabric.Docimax.Identity
             {
                 new Client
                 {
-                    ClientId = "cas.web.nb",
+                    ClientId = "597c2429f4b27d74",
                     ClientName = "CAS System MPA Client",
-                    ClientSecrets = new [] { new Secret("websecret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = new [] { "clientservice", "productservice",
+                    ClientSecrets = new [] { new Secret("96eb098a127f74bad17badc5ea395b69") },
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    AllowedScopes = new [] { "DocimaxHerosApi", "DocimaxHeros","AccountTransfer",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile }
-                },
-                new Client
-                {
-                    ClientId = "cas.mobile.nb",
-                    ClientName = "CAS System Mobile App Client",
-                    ClientSecrets = new [] { new Secret("mobilesecret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = new [] { "productservice",
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile }
-                },
-                new Client
-                {
-                    ClientId = "cas.spa.nb",
-                    ClientName = "CAS System SPA Client",
-                    ClientSecrets = new [] { new Secret("spasecret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = new [] { "agentservice", "clientservice", "productservice",
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile }
-                },
-                new Client
-                {
-                    ClientId = "cas.mvc.nb.implicit",
-                    ClientName = "CAS System MVC App Client",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                        IdentityServerConstants.StandardScopes.Profile },
                     RedirectUris = { Configuration["Clients:MvcClient:RedirectUri"] },
                     PostLogoutRedirectUris = { Configuration["Clients:MvcClient:PostLogoutRedirectUri"] },
-                    AllowedScopes = new [] {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "agentservice", "clientservice", "productservice"
-                    },
-                    //AccessTokenLifetime = 3600, // one hour
-                    AllowAccessTokensViaBrowser = true // can return access_token to this client
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowOfflineAccess = true,
                 }
             };
         }

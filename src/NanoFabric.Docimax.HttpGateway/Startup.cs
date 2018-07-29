@@ -67,7 +67,7 @@ namespace NanoFabric.Docimax.HttpGateway
                  });
 
             services.AddOcelot()
-                .AddStoreOcelotConfigurationInConsul()
+                //.AddStoreOcelotConfigurationInConsul()
                 .AddCacheManager(settings)
                 .AddOrleansHttpGateway((OrleansRequesterConfiguration config) =>
                  {
@@ -81,7 +81,8 @@ namespace NanoFabric.Docimax.HttpGateway
                          if (context.HttpContext.Request.Headers.TryGetValue("Authorization", out StringValues value))
                              Orleans.Runtime.RequestContext.Set("Authorization", value);
                      };
-                 }); ; 
+                 })
+                 .AddAdministration("/administration", "secret"); 
 
             services.AddNanoFabricConsul(Configuration);
             var metrics = AppMetrics.CreateDefaultBuilder()
@@ -101,7 +102,7 @@ namespace NanoFabric.Docimax.HttpGateway
             loggerFactory.AddNLog();
             var logger = loggerFactory.CreateLogger<Startup>();
             logger.LogInformation("Application - Configure is invoked");
-            app.UseConsulRegisterService(Configuration);
+            //app.UseConsulRegisterService(Configuration);
             app.UseMetricsAllMiddleware();
             app.UseMetricsAllEndpoints();     
             app.UseOcelot(config =>

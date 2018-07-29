@@ -74,7 +74,14 @@ namespace NanoFabric.Docimax.Heroes.Api
                     .AllowAnyHeader()
                     .AllowCredentials();
             }));
-
+            services.AddAuthentication(Configuration["IdentityService:DefaultScheme"])
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = Configuration["IdentityService:Uri"];
+                    options.RequireHttpsMetadata = Convert.ToBoolean(Configuration["IdentityService:UseHttps"]);
+                    options.ApiName = "DocimaxHerosApi";
+                    options.ApiSecret = Configuration["IdentityService:ApiSecret"];
+                });
         }
 
 
@@ -106,28 +113,30 @@ namespace NanoFabric.Docimax.Heroes.Api
             return client;
         }
 
-      
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env, ILoggerFactory loggerFactory	)
-		{
-                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-                loggerFactory.AddDebug();
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-                app.UseCors("TempCorsPolicy");
+            app.UseCors("TempCorsPolicy");
 
-                if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                }
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-                //app.UseSignalR(routes =>
-                //{
-                //    routes.MapHub<HeroHub>("/realtime/hero");
-                //    routes.MapHub<UserNotificationHub>("/userNotifications");
-                //});
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<HeroHub>("/realtime/hero");
+            //    routes.MapHub<UserNotificationHub>("/userNotifications");
+            //});
 
-                app.UseMvc()
-                .UseConsulRegisterService(Configuration);
+            app.UseMvc()
+            .UseConsulRegisterService(Configuration);
+            // IdentityServer
+            app.UseAuthentication();
         }
     }
 }

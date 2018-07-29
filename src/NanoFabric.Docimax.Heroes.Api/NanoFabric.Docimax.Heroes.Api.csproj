@@ -18,7 +18,6 @@
     <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Microsoft.Orleans.OrleansConsulUtils" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
