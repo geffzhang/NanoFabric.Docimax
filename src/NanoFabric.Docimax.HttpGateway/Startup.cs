@@ -50,19 +50,19 @@ namespace NanoFabric.Docimax.HttpGateway
                   .AddJwtBearer("DocimaxHerosApi", x =>
                   {
                       x.RequireHttpsMetadata = false;
-                      x.Authority = "http://localhost:50774";
+                      x.Authority = "http://192.168.1.4:50774";
                       x.Audience = "DocimaxHerosApi";
                   })
                  .AddJwtBearer("AccountTransfer", x =>
                  {
                      x.RequireHttpsMetadata = false;
-                     x.Authority = "http://localhost:50774";
+                     x.Authority = "http://192.168.1.4:50774";
                      x.Audience = "AccountTransfer";
                  })
                  .AddJwtBearer("DocimaxHeros", x =>
                  {
                      x.RequireHttpsMetadata = false;
-                     x.Authority = "http://localhost:50774";
+                     x.Authority = "http://192.168.1.4:50774";
                      x.Audience = "DocimaxHeros";
                  });
 

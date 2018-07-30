@@ -38,8 +38,8 @@ namespace NanoFabric.Docimax.Heroes.SiloHost.Infrastructure
                     authen.AddIdentityServerAuthentication(opt =>
                     {
                         opt.RequireHttpsMetadata = true;
-                        opt.Authority = "http://localhost:50774";
-                        opt.ApiName = "AccountTransfer";
+                        opt.Authority = "http://192.168.1.4:50774";
+                        opt.ApiName = "DocimaxHeros";
                     });
                 }, IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddAuthorizationFilter(); 

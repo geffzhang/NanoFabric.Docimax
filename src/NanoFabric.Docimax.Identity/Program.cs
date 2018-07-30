@@ -20,6 +20,6 @@ namespace NanoFabric.Docimax.Identity
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-            .UseUrls("http://localhost:50774");
+            .UseUrls("http://192.168.1.4:50774");
     }
 }

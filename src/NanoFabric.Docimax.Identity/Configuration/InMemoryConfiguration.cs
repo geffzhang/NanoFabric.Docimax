@@ -38,7 +38,7 @@ namespace NanoFabric.Docimax.Identity
                 {
                     ClientId = "597c2429f4b27d74",
                     ClientName = "CAS System MPA Client",
-                    ClientSecrets = new [] { new Secret("96eb098a127f74bad17badc5ea395b69") },
+                    ClientSecrets = new [] { new Secret("96eb098a127f74bad17badc5ea395b69".Sha256()) },
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     AllowedScopes = new [] { "DocimaxHerosApi", "DocimaxHeros","AccountTransfer",
                         IdentityServerConstants.StandardScopes.OpenId,
