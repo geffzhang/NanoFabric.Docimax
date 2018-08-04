@@ -4,13 +4,12 @@
       "DownstreamPathTemplate": "/connect/token",
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/connect/token",
-      "UpstreamHttpMethod": "post",     
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "192.168.1.4",
-          "Port": 50774
-        }
-      ],     
+      "UpstreamHttpMethod": "post",
+      "UseServiceDiscovery": true,
+      "ServiceName": "DocimaxIdentity",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 5000,
@@ -35,22 +34,19 @@
           "Host": "127.0.0.1",
           "Port": 30000
         }
-      ],
-      "LoadBalancerOptions": {
-        "Type": "LeastConnection"
-      },
+      ],     
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10,
         "TimeoutValue": 5000
-      },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "DocimaxHeros",
-        "AllowedScopes": []
-      },
-      "AddClaimsToRequest": {
-        "GrainKey": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value"
       }
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "DocimaxHeros",
+      //  "AllowedScopes": []
+      //},
+      //"AddClaimsToRequest": {
+      //  "GrainKey": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value"
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/heroes",
