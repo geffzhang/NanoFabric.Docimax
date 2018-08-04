@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 using Ocelot.DependencyInjection;
@@ -24,9 +25,15 @@ namespace Ocelot.DependencyInjection
         }
         public static IOcelotBuilder AddOrleansHttpGateway(this IOcelotBuilder builder, Action<OrleansRequesterConfiguration> OrleansRequesterConfiguration = null)
         {
+
             builder.Services.AddOrleansHttpGateway(OrleansRequesterConfiguration);
-        
-            builder.Services.Configure<OrleansHttpGatewayOptions>(builder.Configuration.GetSection("Orleans"));
+            var configuration = builder.Services.SingleOrDefault(s => s.ServiceType.Name == typeof(IConfiguration).Name)?.ImplementationInstance as IConfiguration;
+            builder.Services.Configure<OrleansHttpGatewayOptions>(builder.Configuration.GetSection("Orleans")); if (configuration == null)
+                throw new OrleansHttpGateway.Requester.OrleansConfigurationException("can't find Orleans section in appsetting.json");
+            configuration = builder.Configuration.GetSection("Orleans");
+            if (configuration == null)
+                throw new OrleansHttpGateway.Requester.OrleansConfigurationException("can't find Orleans section in appsetting.json");
+            builder.Services.Configure<OrleansHttpGatewayOptions>(configuration);
             return builder;
         }
 

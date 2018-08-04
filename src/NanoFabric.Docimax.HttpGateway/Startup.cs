@@ -67,7 +67,7 @@ namespace NanoFabric.Docimax.HttpGateway
                  });
 
             services.AddOcelot()
-                //.AddStoreOcelotConfigurationInConsul()
+                .AddStoreOcelotConfigurationInConsul()
                 .AddCacheManager(settings)
                 .AddOrleansHttpGateway((OrleansRequesterConfiguration config) =>
                  {
