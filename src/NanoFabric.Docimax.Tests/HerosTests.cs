@@ -9,7 +9,7 @@ namespace NanoFabric.Docimax.Tests
         [Fact]
         public async Task GetHeroTest()
         {
-            var response = await _client.GetAsync("/api/heroes");
+            var response = await _client.GetAsync("/api/hero/get");
             Assert.True(response.IsSuccessStatusCode);
         }
     }

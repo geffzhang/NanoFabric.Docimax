@@ -92,7 +92,7 @@ namespace Ocelot.OrleansHttpGateway.Requester
             if (context.Configuration.ServiceProviderConfiguration != null)
             {
                 var config = context.Configuration.ServiceProviderConfiguration;
-                if (config.Type.Equals("consul", StringComparison.OrdinalIgnoreCase))
+                if (config.Type.Equals("consul", StringComparison.OrdinalIgnoreCase)|| config.Type.Equals("pollconsul", StringComparison.OrdinalIgnoreCase))
                 {
                     build.UseConsulClustering(opt =>
                     {

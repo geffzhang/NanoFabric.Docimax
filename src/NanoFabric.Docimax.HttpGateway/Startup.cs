@@ -50,19 +50,19 @@ namespace NanoFabric.Docimax.HttpGateway
                   .AddJwtBearer("DocimaxHerosApi", x =>
                   {
                       x.RequireHttpsMetadata = false;
-                      x.Authority = "http://192.168.1.4:50774";
+                      x.Authority = "http://127.0.0.1:50774";
                       x.Audience = "DocimaxHerosApi";
                   })
                  .AddJwtBearer("AccountTransfer", x =>
                  {
                      x.RequireHttpsMetadata = false;
-                     x.Authority = "http://192.168.1.4:50774";
+                     x.Authority = "http://127.0.0.1:50774";
                      x.Audience = "AccountTransfer";
                  })
                  .AddJwtBearer("DocimaxHeros", x =>
                  {
                      x.RequireHttpsMetadata = false;
-                     x.Authority = "http://192.168.1.4:50774";
+                     x.Authority = "http://127.0.0.1:50774";
                      x.Audience = "DocimaxHeros";
                  });
 
@@ -73,7 +73,7 @@ namespace NanoFabric.Docimax.HttpGateway
                  {
                      config.MapRouteToGraininterface = (route) =>
                      {
-                         return "I{GrainName}Service".Replace("{GrainName}", route.GrainName);
+                         return "I{GrainName}Grain".Replace("{GrainName}", route.GrainName);
                      };
                      config.RequestContextInjection = (context) =>
                      {

@@ -17,12 +17,12 @@ namespace NanoFabric.Docimax.Heroes.SiloHost
 
         public async Task Execute(CancellationToken cancellationToken)
         {
-            var grain = _grainFactory.GetGrain<IHeroCollectionGrain>(0);
-            await grain.Activate();
+            //    var grain = _grainFactory.GetGrain<IHeroCollectionGrain>(0);
+            //    await grain.Activate();
 
-            var heroes = await grain.GetAll();
-            foreach (var hero in heroes)
-                _grainFactory.GetGrain<IHeroGrain>(hero.Key).InvokeOneWay(x => x.Activate());
+            //    var heroes = await grain.GetAll();
+            //    foreach (var hero in heroes)
+            //        _grainFactory.GetGrain<IHeroGrain>(hero.Key).InvokeOneWay(x => x.Activate());
         }
     }
 }

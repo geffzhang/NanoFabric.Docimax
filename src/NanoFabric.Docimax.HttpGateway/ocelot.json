@@ -28,17 +28,15 @@
       "DownstreamScheme": "orleans",
       "UpstreamPathTemplate": "/api/hero/{url}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "ServiceName": "DocimaxHeros",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "127.0.0.1",
-          "Port": 30000
-        }
-      ],     
+      "ServiceName": "heroes",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10,
         "TimeoutValue": 5000
+      },
+      "UseServiceDiscovery": true,
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
       }
       //"AuthenticationOptions": {
       //  "AuthenticationProviderKey": "DocimaxHeros",
@@ -81,20 +79,20 @@
   },
   "Orleans": {
     "Clients": {
-      "Docimaxheroes": {
-        "ServiceName": "heroes",
+      "heroes": {
+        "ServiceName": "Hero",
         "ServiceId": "heroes",
         "ClusterId": "dev",
-        "InterfaceDllPathName": "F:\\Workshop\\Github\\NanoFabric.Docimax\\NanoFabric.Docimax\\src\\NanoFabric.Docimax.Grains.Contracts.Heroes\\bin\\Debug\\netstandard2.0\\NanoFabric.Docimax.Grains.Contracts.Heroes.dll",
-        "InterfaceNameTemplate": "I{GrainName}Service"
-      },
-      "AccountTransfer": {
-        "ServiceName": "AccountTransfer",
-        "ServiceId": "AccountTransferApp",
-        "ClusterId": "dev",
-        "InterfaceDllPathName": "F:\\Workshop\\Github\\NanoFabric.Docimax\\NanoFabric.Docimax\\src\\NanoFabric.Docimax.Grains.Contracts.AccountManager\\bin\\Debug\\netstandard2.0\\NanoFabric.Docimax.Grains.Contracts.AccountManager.dll",
-        "InterfaceNameTemplate": "I{GrainName}Service"
-      }
+        "ServiceInterfaceDllAbsolutePath": "\\bin\\Debug\\netcoreapp2.1\\NanoFabric.Docimax.Grains.Contracts.Heroes.dll",
+        "InterfaceNameTemplate": "I{GrainName}"
+      }//,
+      //"AccountTransfer": {
+      //  "ServiceName": "AccountTransfer",
+      //  "ServiceId": "AccountTransferApp",
+      //  "ClusterId": "dev",
+      //  "ServiceInterfaceDllAbsolutePath": "C:\\Workshop\\Github\\NanoFabric.Docimax\\src\\NanoFabric.Docimax.Grains.Contracts.AccountManager\\bin\\Debug\\netstandard2.0\\NanoFabric.Docimax.Grains.Contracts.AccountManager.dll",
+      //  "InterfaceNameTemplate": "I{GrainName}Service"
+      //}
     }
   }
 }

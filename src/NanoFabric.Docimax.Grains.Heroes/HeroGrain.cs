@@ -55,7 +55,7 @@ namespace NanoFabric.Docimax.Grains.Heroes
             return WriteStateAsync();
         }
 
-        public Task<Hero> Get() => Task.FromResult(State.Hero);
+        public Task<Hero> Get() => Task.FromResult(new Hero() {  Name ="test" });
 
     }
 }

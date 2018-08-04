@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NanoFabric.Docimax.Core\NanoFabric.Docimax.Core.csproj" />
     <ProjectReference Include="..\NanoFabric.Docimax.Grains.Contracts.Heroes\NanoFabric.Docimax.Grains.Contracts.Heroes.csproj" />
   </ItemGroup>
 

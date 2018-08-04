@@ -29,7 +29,7 @@ namespace Ocelot.OrleansHttpGateway.Requester
 
         public TGrainInterface GetGrain<TGrainInterface>(Guid primaryKey, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithGuidKey
         {
-          return  this._clusterClientBuilder.GetClusterClient<TGrainInterface>()
+            return  this._clusterClientBuilder.GetClusterClient<TGrainInterface>()
                 .GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
         }
 
@@ -41,6 +41,8 @@ namespace Ocelot.OrleansHttpGateway.Requester
 
         public TGrainInterface GetGrain<TGrainInterface>(string primaryKey, string grainClassNamePrefix = null) where TGrainInterface : IGrainWithStringKey
         {
+            if (string.IsNullOrEmpty(primaryKey))
+                primaryKey = "0";
             return this._clusterClientBuilder.GetClusterClient<TGrainInterface>()
                 .GetGrain<TGrainInterface>(primaryKey, grainClassNamePrefix);
         }

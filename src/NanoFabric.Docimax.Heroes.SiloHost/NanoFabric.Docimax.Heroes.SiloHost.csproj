@@ -27,6 +27,7 @@
     <ProjectReference Include="..\NanoFabric.Docimax.Grains.Contracts.Heroes\NanoFabric.Docimax.Grains.Contracts.Heroes.csproj" />
     <ProjectReference Include="..\NanoFabric.Docimax.Grains.Heroes\NanoFabric.Docimax.Grains.Heroes.csproj" />
     <ProjectReference Include="..\Orleans.Authentication.IdentityServer4\Orleans.Authentication.IdentityServer4.csproj" />
+    <ProjectReference Include="..\Orleans.Authorization\Orleans.Authorization.csproj" />
   </ItemGroup>
 
   <ItemGroup>
